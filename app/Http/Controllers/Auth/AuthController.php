@@ -25,6 +25,9 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+
+    protected $redirectPath = '/home';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -90,7 +93,8 @@ class AuthController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect('home');
+        return redirect()->route('home');
+
     }
 
     /**
@@ -114,4 +118,5 @@ class AuthController extends Controller
             'avatar' => $facebookUser->avatar
         ]);
     }
+
 }
