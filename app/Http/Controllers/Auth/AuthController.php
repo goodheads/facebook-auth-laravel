@@ -6,6 +6,7 @@ use App\User;
 use Auth;
 use Socialite;
 use Validator;
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -85,8 +86,8 @@ class AuthController extends Controller
     public function handleProviderCallback(){
         try{
             $user = Socialite::driver('facebook')->user();
-        } catch( Exception $e){
-            return redirect('auth/facebook');
+        } catch (Exception $e) {
+            return redirect('/')->with('status', 'Something went wrong or You have rejected the app!');
         }
 
         $authUser = $this->findOrCreateUser($user);
@@ -94,7 +95,6 @@ class AuthController extends Controller
         Auth::login($authUser, true);
 
         return redirect()->route('home');
-
     }
 
     /**
@@ -107,8 +107,8 @@ class AuthController extends Controller
     {
         $authUser = User::where('facebook_id', $facebookUser->id)->first();
 
-        if ($authUser){
-            return $authUser;
+        if ($authUser) {
+          return $authUser;
         }
 
         return User::create([

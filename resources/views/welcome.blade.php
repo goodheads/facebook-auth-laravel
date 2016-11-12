@@ -42,6 +42,11 @@
                 <div class="title">Laravel 5</div>
 
                 <a class="btn btn-info" href="auth/facebook" role="button">Login with Facebook</a>
+
+                @if(session('status'))
+                  <br><p>{{ session('status') }}</p>
+                @endif
+
             </div>
         </div>
     </body>
